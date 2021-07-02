@@ -1,7 +1,9 @@
 import { useState, ChangeEvent, SyntheticEvent } from "react"
+import { useHistory } from "react-router-dom"
 import { useIdentityContext } from "react-netlify-identity"
 
 const useAuthUser = (operation: string) => {
+  const history = useHistory()
   const { loginUser, signupUser } = useIdentityContext()
 
   const [email, setEmail] = useState<string>("")
@@ -22,6 +24,7 @@ const useAuthUser = (operation: string) => {
           ? await signupUser(email, password, {}, true)
           : await loginUser(email, password, true)
 
+      history.push("/")
       console.log(user)
     } catch (e) {
       //setError(e)

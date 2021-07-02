@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 import { useIdentityContext } from "react-netlify-identity"
 import Login from "../../../user/components/login"
+import Logout from "../../../user/components/logout"
 import SignUp from "../../../user/components/sign-up"
 
 const Routes = () => {
@@ -10,9 +11,13 @@ const Routes = () => {
     <Router>
       <Switch>
         {isLoggedIn ? (
-          <Route path="/" exact>
-            <p>You are logged in.</p>
-          </Route>
+          <>
+            <Route path="/" exact>
+              <p>You are logged in.</p>
+              <Link to="/logout">Logout</Link>
+            </Route>
+            <Route path="/logout" exact component={Logout} />
+          </>
         ) : (
           <>
             <Route path="/" exact>
