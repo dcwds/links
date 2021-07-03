@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { useHistory } from "react-router-dom"
 import { useIdentityContext } from "react-netlify-identity"
 
-const Logout = () => {
+const SignOut = () => {
   const history = useHistory()
   const { logoutUser } = useIdentityContext()
 
@@ -12,7 +12,7 @@ const Logout = () => {
     setTimeout(() => history.push("/"), 200)
   }, [history, logoutUser])
 
-  return <div>Logging you out and redirecting...</div>
+  return <div>Signing you out and redirecting...</div>
 }
 
-export default Logout
+export default SignOut

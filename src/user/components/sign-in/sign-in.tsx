@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom"
 import useUserForm from "../../hooks/use-user-form"
 
-const SignUp = () => {
+const SignIn = () => {
   const f = useUserForm()
 
   return (
@@ -18,9 +19,10 @@ const SignUp = () => {
         type="password"
         name="password"
       />
-      <button onClick={f.signUp}>Sign Up</button>
+      <button onClick={f.signIn}>Sign In</button>
+      <Link to="/recovery">Recover your password</Link>
     </div>
   )
 }
 
-export default SignUp
+export default SignIn

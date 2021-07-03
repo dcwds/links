@@ -1,32 +1,35 @@
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 import { useIdentityContext } from "react-netlify-identity"
-import Login from "../../../user/components/login"
-import Logout from "../../../user/components/logout"
+import SignIn from "../../../user/components/sign-in"
+import SignOut from "../../../user/components/sign-out"
 import SignUp from "../../../user/components/sign-up"
+import { Recovery, RecoveryCapture } from "../../../user/components/recovery"
 
 const Routes = () => {
   const { isLoggedIn } = useIdentityContext()
 
   return (
     <Router>
+      <RecoveryCapture />
       <Switch>
         {isLoggedIn ? (
           <>
             <Route path="/" exact>
-              <p>You are logged in.</p>
-              <Link to="/logout">Logout</Link>
+              <p>You are signed in.</p>
+              <Link to="/sign-out">Sign Out</Link>
             </Route>
-            <Route path="/logout" exact component={Logout} />
+            <Route path="/sign-out" exact component={SignOut} />
           </>
         ) : (
           <>
             <Route path="/" exact>
-              <p>Please log in.</p>
-              <Link to="/signup">Sign Up</Link>
-              <Link to="/login">Login</Link>
+              <p>Please sign in.</p>
+              <Link to="/sign-up">Sign Up</Link>
+              <Link to="/sign-in">Sign In</Link>
             </Route>
-            <Route path="/signup" exact component={SignUp} />
-            <Route path="/login" exact component={Login} />
+            <Route path="/sign-up" exact component={SignUp} />
+            <Route path="/sign-in" exact component={SignIn} />
+            <Route path="/recovery/:token?" component={Recovery} />
           </>
         )}
       </Switch>
