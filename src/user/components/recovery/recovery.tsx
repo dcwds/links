@@ -27,6 +27,10 @@ const Recovery = () => {
     })()
   }, [token, verifyToken])
 
+  // log to avoid eslint errors while testing in prod
+  console.log(user)
+  console.log(error)
+
   return (
     <div>
       {token ? (
