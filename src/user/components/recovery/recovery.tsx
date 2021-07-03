@@ -8,23 +8,24 @@ const Recovery = () => {
   const { verifyToken } = useIdentityContext()
   const f = useUserForm()
 
-  const [user, setUser] = useState<User | null>(null)
+  const [fetchedUser, setFetchedUser] = useState<User | null>(null)
   const [tokenError, setTokenError] = useState<string>("")
 
   useEffect(() => {
-    if (!token || !!user || !!tokenError) return
-    ;(async () => {
-      console.log("verifyToken called")
-      try {
-        const user = await verifyToken()
+    if (token && !fetchedUser && !tokenError) {
+      ;(async () => {
+        try {
+          const user = await verifyToken()
+          console.log("verifyToken called")
+          console.log(user)
 
-        console.log(user)
-        if (typeof user === "object") return setUser(user)
-      } catch (e) {
-        console.log(e)
-        setTokenError("Could not verify the provided recovery token.")
-      }
-    })()
+          if (typeof user === "object") setFetchedUser(user)
+        } catch (e) {
+          console.log(e)
+          setTokenError("Could not verify the provided recovery token.")
+        }
+      })()
+    }
   })
 
   return (
@@ -32,7 +33,7 @@ const Recovery = () => {
       {token ? (
         <>
           {tokenError && <p>{tokenError}</p>}
-          {user && (
+          {fetchedUser && (
             <>
               <h2>Reset your password</h2>
               <input
