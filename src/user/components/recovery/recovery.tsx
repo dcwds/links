@@ -9,34 +9,45 @@ const Recovery = () => {
   const f = useUserForm()
 
   const [user, setUser] = useState<User | null>(null)
-  const [error, setError] = useState<string>("")
+  const [tokenError, setTokenError] = useState<string>("")
 
   useEffect(() => {
-    if (!token) return
+    if (!token || !!user || !!tokenError) return
     ;(async () => {
+      console.log("verifyToken called")
       try {
-        console.log(token)
         const user = await verifyToken()
 
         console.log(user)
         if (typeof user === "object") return setUser(user)
       } catch (e) {
         console.log(e)
-        setError("Could not verify the provided recovery token.")
+        setTokenError("Could not verify the provided recovery token.")
       }
     })()
-  }, [token, verifyToken])
-
-  // log to avoid eslint errors while testing in prod
-  console.log(user)
-  console.log(error)
+  })
 
   return (
     <div>
       {token ? (
-        <p>has token</p>
+        <>
+          {tokenError && <p>{tokenError}</p>}
+          {user && (
+            <>
+              <h2>Reset your password</h2>
+              <input
+                onChange={f.changePassword}
+                value={f.password}
+                type="password"
+                name="password"
+              />
+              <button>Reset Password</button>
+            </>
+          )}
+        </>
       ) : (
-        <div>
+        <>
+          <h2>Recover your password</h2>
           {f.error && f.error}
           <input
             onChange={f.changeEmail}
@@ -45,7 +56,7 @@ const Recovery = () => {
             name="email"
           />
           <button onClick={f.recoverPassword}>Recover Password</button>
-        </div>
+        </>
       )}
     </div>
   )
