@@ -9,8 +9,6 @@ const RecoveryCapture = () => {
   const { replace } = useHistory()
   const { pathname } = useLocation()
 
-  console.log(token)
-
   useEffect(() => {
     if (token && type === "recovery" && pathname === "/")
       replace(`/recovery/${token}`)

@@ -4,7 +4,7 @@ import { useIdentityContext } from "react-netlify-identity"
 
 const useUserForm = () => {
   const history = useHistory()
-  const { loginUser, signupUser, requestPasswordRecovery } =
+  const { loginUser, signupUser, updateUser, requestPasswordRecovery } =
     useIdentityContext()
 
   const [email, setEmail] = useState<string>("")
@@ -46,8 +46,21 @@ const useUserForm = () => {
   const recoverPassword = async (e: SyntheticEvent<HTMLButtonElement>) => {
     if (!email) return setError("Please provide your email.")
 
+    console.log(email)
+
     requestPasswordRecovery(email)
     history.push("/recovery-success")
+  }
+
+  const resetPassword = async (userEmail: string) => {
+    if (!password) setError("Please provide a new password.")
+
+    try {
+      await updateUser({ email: userEmail, password })
+    } catch (e) {
+      console.log(e)
+      setError("Something went wrong.")
+    }
   }
 
   return {
@@ -58,7 +71,8 @@ const useUserForm = () => {
     changePassword,
     signIn,
     signUp,
-    recoverPassword
+    recoverPassword,
+    resetPassword
   }
 }
 
