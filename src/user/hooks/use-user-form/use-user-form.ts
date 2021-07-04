@@ -52,11 +52,12 @@ const useUserForm = () => {
     history.push("/recovery-success")
   }
 
-  const resetPassword = async (userEmail: string) => {
+  const resetPassword = async (e: SyntheticEvent<HTMLButtonElement>) => {
     if (!password) setError("Please provide a new password.")
 
     try {
-      await updateUser({ email: userEmail, password })
+      await updateUser({ password })
+      history.push("/")
     } catch (e) {
       console.log(e)
       setError("Something went wrong.")

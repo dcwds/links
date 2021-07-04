@@ -1,25 +1,21 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { useIdentityContext, User } from "react-netlify-identity"
+import { useIdentityContext } from "react-netlify-identity"
 import useUserForm from "../../hooks/use-user-form"
 
 const Recovery = () => {
   const { token } = useParams<{ token: string }>()
-  const { verifyToken } = useIdentityContext()
+  const { recoverAccount } = useIdentityContext()
   const f = useUserForm()
 
-  const [fetchedUser, setFetchedUser] = useState<User | undefined>(undefined)
   const [tokenError, setTokenError] = useState<string>("")
 
   useEffect(() => {
-    if (token && !fetchedUser && !tokenError) {
+    if (token) {
       ;(async () => {
         try {
-          const user = await verifyToken()
-          console.log("verifyToken called")
-          console.log(user)
-
-          setFetchedUser(user)
+          await recoverAccount(true)
+          console.log("Account recovered.")
         } catch (e) {
           console.log(e)
           setTokenError("Could not verify the provided recovery token.")
@@ -33,7 +29,7 @@ const Recovery = () => {
       {token ? (
         <>
           {tokenError && <p>{tokenError}</p>}
-          {fetchedUser && (
+          {!tokenError && (
             <>
               <h2>Reset your password</h2>
               {f.error && f.error}
@@ -43,9 +39,7 @@ const Recovery = () => {
                 type="password"
                 name="password"
               />
-              <button onClick={() => f.resetPassword(fetchedUser.email)}>
-                Reset Password
-              </button>
+              <button onClick={f.resetPassword}>Reset Password</button>
             </>
           )}
         </>
