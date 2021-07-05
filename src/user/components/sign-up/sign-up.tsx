@@ -5,16 +5,17 @@ const SignUp = () => {
 
   return (
     <div>
-      {f.error && <p>${f.error}</p>}
+      <h2>Sign Up</h2>
+      {f.error && <p>{f.error}</p>}
       <input
         onChange={f.changeEmail}
-        value={f.email}
+        value={f.email.value}
         type="email"
         name="email"
       />
       <input
         onChange={f.changePassword}
-        value={f.password}
+        value={f.password.value}
         type="password"
         name="password"
       />

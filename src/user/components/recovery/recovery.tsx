@@ -35,7 +35,7 @@ const Recovery = () => {
               {f.error && f.error}
               <input
                 onChange={f.changePassword}
-                value={f.password}
+                value={f.password.value}
                 type="password"
                 name="password"
               />
@@ -49,7 +49,7 @@ const Recovery = () => {
           {f.error && f.error}
           <input
             onChange={f.changeEmail}
-            value={f.email}
+            value={f.email.value}
             type="email"
             name="email"
           />

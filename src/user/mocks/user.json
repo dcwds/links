@@ -1,0 +1,30 @@
+{
+  "api": {
+    "apiURL": "https://dcwds-links.netlify.app/.netlify/identity",
+    "_sameOrigin": true,
+    "defaultHeaders": {
+      "X-Use-Cookie": "session"
+    }
+  },
+  "url": "https://dcwds-links.netlify.app/.netlify/identity",
+  "token": {
+    "access_token": "",
+    "token_type": "bearer",
+    "expires_in": 3600,
+    "refresh_token": "",
+    "expires_at": 1625370119000
+  },
+  "id": "someid",
+  "aud": "",
+  "role": "",
+  "email": "user@domain.com",
+  "confirmed_at": "2021-07-02T18:35:16Z",
+  "confirmation_sent_at": "2021-07-02T18:30:09Z",
+  "recovery_sent_at": "2021-07-04T01:15:53Z",
+  "app_metadata": {
+    "provider": "email"
+  },
+  "user_metadata": {},
+  "created_at": "2021-07-02T18:30:09Z",
+  "updated_at": "2021-07-02T18:30:09Z"
+}
