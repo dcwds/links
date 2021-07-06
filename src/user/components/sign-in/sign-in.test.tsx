@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "../../../test-utils"
+import { render, screen } from "../../../test-utils"
 import { Route } from "react-router-dom"
 import userEvent from "@testing-library/user-event"
 import SignIn from "./sign-in"
@@ -32,7 +32,5 @@ test("successfully sign in with valid email and password", async () => {
 
   userEvent.click(signInBtn)
 
-  await waitFor(() =>
-    expect(screen.getByText("Signed in.")).toBeInTheDocument()
-  )
+  expect(await screen.findByText("Signed in.")).toBeInTheDocument()
 })

@@ -38,10 +38,8 @@ const useUserForm = () => {
     if (!email.value || !password.value) return
 
     try {
-      const user = await loginUser(email.value, password.value, true)
-
+      await loginUser(email.value, password.value, true)
       history.push("/")
-      console.log(user)
     } catch (e) {
       console.log(e)
       setError("Wrong user credentials, try again.")
@@ -55,10 +53,8 @@ const useUserForm = () => {
     if (!email.value || !password.value) return
 
     try {
-      const user = await signupUser(email.value, password.value, {}, true)
-
+      await signupUser(email.value, password.value, {}, true)
       history.push("/")
-      console.log(user)
     } catch (e) {
       console.log(e)
       setError("Something went wrong when trying to sign you up.")
@@ -68,8 +64,6 @@ const useUserForm = () => {
   const recoverPassword = async (e: SyntheticEvent<HTMLButtonElement>) => {
     if (!email.value)
       return setEmail((s) => ({ ...s, error: "Please provide an email." }))
-
-    console.log(email.value)
 
     requestPasswordRecovery(email.value)
     history.push("/recovery-success")

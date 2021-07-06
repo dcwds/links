@@ -1,13 +1,16 @@
 import { NETLIFY_URL } from "../../../constants"
 import { IdentityContextProvider } from "react-netlify-identity"
-import Routes from "./routes"
+import { BrowserRouter as Router } from "react-router-dom"
+import Routes from "../routes"
 
 const App = () => (
   <IdentityContextProvider url={NETLIFY_URL}>
     <div>
       <header>Links</header>
     </div>
-    <Routes />
+    <Router>
+      <Routes />
+    </Router>
   </IdentityContextProvider>
 )
 

@@ -1,0 +1,5 @@
+{
+  "apiURL": "https://dcwds-links.netlify.app/.netlify/identity",
+  "_sameOrigin": true,
+  "defaultHeaders": { "X-Use-Cookie": "1" }
+}

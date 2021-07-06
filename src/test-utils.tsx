@@ -1,30 +1,38 @@
 import { NETLIFY_URL } from "./constants"
-import { ReactElement } from "react"
-import { MemoryRouter, Route } from "react-router-dom"
-import { IdentityContextProvider } from "react-netlify-identity"
+import { useEffect, ReactElement, FC } from "react"
+import { MemoryRouter } from "react-router-dom"
+import {
+  IdentityContextProvider,
+  useIdentityContext
+} from "react-netlify-identity"
 import { render } from "@testing-library/react"
 
-const renderInContext = (ui: ReactElement, { route = "/" } = {}) => {
-  // access history as described in the docs
-  // https://reactrouter.com/web/guides/testing/checking-location-in-tests
-  let history = null
+type UIWrapperProps = {
+  route?: string
+  authenticated?: boolean
+}
 
+const UIWrapper: FC<{ children: ReactElement } & UIWrapperProps> = ({
+  children,
+  route,
+  authenticated
+}) => {
+  const { isLoggedIn, loginUser } = useIdentityContext()
+
+  useEffect(() => {
+    if (!isLoggedIn && authenticated) loginUser("user@domain.com", "", true)
+  })
+
+  return <MemoryRouter initialEntries={[route || "/"]}>{children}</MemoryRouter>
+}
+
+const renderInContext = (ui: ReactElement, wrapperProps?: UIWrapperProps) => {
   return {
     ...render(
       <IdentityContextProvider url={NETLIFY_URL}>
-        <MemoryRouter initialEntries={[route]}>
-          {ui}
-          <Route
-            path="*"
-            render={(props) => {
-              history = props.history
-              return null
-            }}
-          />
-        </MemoryRouter>
+        <UIWrapper {...wrapperProps}>{ui}</UIWrapper>
       </IdentityContextProvider>
-    ),
-    history
+    )
   }
 }
 
