@@ -1,5 +1,5 @@
 import { NETLIFY_URL } from "./constants"
-import { useEffect, ReactElement, FC } from "react"
+import { useEffect, useRef, ReactElement, FC } from "react"
 import { MemoryRouter } from "react-router-dom"
 import {
   IdentityContextProvider,
@@ -17,10 +17,18 @@ const UIWrapper: FC<{ children: ReactElement } & UIWrapperProps> = ({
   route,
   authenticated
 }) => {
-  const { isLoggedIn, loginUser } = useIdentityContext()
+  const { isLoggedIn, loginUser, logoutUser } = useIdentityContext()
+  const isCancelled = useRef(false)
 
   useEffect(() => {
-    if (!isLoggedIn && authenticated) loginUser("user@domain.com", "", true)
+    if (!isLoggedIn && authenticated && !isCancelled.current)
+      loginUser("user@domain.com", "", false)
+
+    return () => {
+      if (isLoggedIn) logoutUser()
+
+      isCancelled.current = true
+    }
   })
 
   return <MemoryRouter initialEntries={[route || "/"]}>{children}</MemoryRouter>

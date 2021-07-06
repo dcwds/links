@@ -6,6 +6,9 @@ import settingsMock from "./user/mocks/identity-settings.json"
 import userMock from "./user/mocks/user.json"
 
 const handlers = [
+  rest.post(`${NETLIFY_URL}/.netlify/identity/logout`, (_, res, ctx) =>
+    res(ctx.json({}))
+  ),
   rest.post(`${NETLIFY_URL}/.netlify/identity/token`, (_, res, ctx) =>
     res(ctx.json(tokenMock))
   ),
