@@ -1,0 +1,26 @@
+type User {
+  email: String!
+  netlifyId: String!
+}
+
+type Link {
+  name: String
+  url: String!
+  author: User! @relation
+  isRead: Boolean!
+  list: List
+}
+
+type List {
+  name: String!
+  description: String
+  isPrivate: Boolean!
+  links: [Link] @relation
+  author: User! @relation
+}
+
+type Query {
+  allUsers: [User!]
+  allLinks: [Link!]
+  allLists: [List!]
+}
