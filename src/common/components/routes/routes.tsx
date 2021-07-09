@@ -4,6 +4,7 @@ import { Switch, Route, Link } from "react-router-dom"
 import SignIn from "../../../user/components/sign-in"
 import SignOut from "../../../user/components/sign-out"
 import SignUp from "../../../user/components/sign-up"
+import Dashboard from "../../../user/components/dashboard"
 
 const Routes = () => {
   const {
@@ -33,8 +34,10 @@ const Routes = () => {
         <>
           <Route path="/" exact>
             <p>You are signed in as {user?.email}.</p>
+            <Link to="/dashboard">Dashboard</Link>
             <Link to="/sign-out">Sign Out</Link>
           </Route>
+          <Route path="/dashboard" component={Dashboard} exact />
           <Route path="/sign-out" component={SignOut} exact />
         </>
       ) : (
