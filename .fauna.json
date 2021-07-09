@@ -1,0 +1,5 @@
+{
+  "schemaPath": "./src/db/schema.gql",
+  "fnsDir": "./src/db/functions",
+  "indexesDir": "./src/db/indexes"
+}

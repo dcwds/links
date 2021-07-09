@@ -1,15 +1,18 @@
 import { Handler } from "@netlify/functions"
 import { client, q } from "./utils/fauna"
 
-const handler: Handler = async (_, context) => {
+const handler: Handler = async (event, context) => {
   const { user } = context.clientContext
+  const params = event.queryStringParameters
 
   try {
     const response = await client.query(
-      q.Create(q.Collection("User"), {
+      q.Create(q.Collection("List"), {
         data: {
-          email: user.email,
-          netlifyId: user.sub
+          name: params.name,
+          description: params.description || "",
+          isPrivate: Boolean(params.isPrivate),
+          author: q.Call(q.Function("getUser"), user.sub)
         }
       })
     )

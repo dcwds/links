@@ -25,14 +25,15 @@
     "web-vitals": "^1.1.2"
   },
   "devDependencies": {
-    "dotenv": "^10.0.0"
+    "dotenv": "^10.0.0",
+    "fauna-gql-upload": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev:db:post-schema": "node ./src/db/utils/post-schema.js postDatabaseSchema",
+    "fauna": "fgu",
     "dev:db:start": "netlify dev:exec ./src/db/scripts/start-local-docker-db.sh"
   },
   "eslintConfig": {
