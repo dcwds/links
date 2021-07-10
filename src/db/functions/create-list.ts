@@ -4,17 +4,17 @@ const CreateList = {
   name: "CreateList",
   body: q.Query(
     q.Lambda(
-      ["name", "description", "isPrivate", "netlifyId"],
+      "data",
       q.Let(
         {
           list: q.Create(q.Collection("List"), {
             data: {
-              name: q.Var("name"),
-              description: q.Var("description"),
-              isPrivate: q.Var("isPrivate"),
+              name: q.Select("name", q.Var("data")),
+              description: q.Select("description", q.Var("data")),
+              isPrivate: q.Select("isPrivate", q.Var("data")),
               author: q.Call(
                 q.Function("GetUserByNetlifyId"),
-                q.Var("netlifyId")
+                q.Select("netlifyId", q.Var("data"))
               ),
               createdAt: q.Now()
             }

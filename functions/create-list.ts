@@ -3,20 +3,10 @@ import { client, q } from "./utils/fauna"
 
 const handler: Handler = async (event, context) => {
   const { user } = context.clientContext
-  const params = event.queryStringParameters
+  const data = { ...JSON.parse(event.body), netlifyId: user.sub }
 
   try {
-    const response = await client.query(
-      q.Call(
-        q.Function("CreateList"),
-        params.name,
-        params.description || "",
-        Boolean(params.isPrivate),
-        user.sub
-      )
-    )
-
-    console.log(JSON.stringify(response))
+    const response = await client.query(q.Call(q.Function("CreateList"), data))
 
     return {
       statusCode: 200,

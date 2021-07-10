@@ -1,17 +1,16 @@
 import { Handler } from "@netlify/functions"
 import { client, q } from "./utils/fauna"
 
-const handler: Handler = async (_, context) => {
+const handler: Handler = async (event, context) => {
   const { user } = context.clientContext
+  const data = { ...JSON.parse(event.body), netlifyId: user.sub }
 
   try {
-    const { data } = (await client.query(
-      q.Call(q.Function("GetListsByUser"), user.sub)
-    )) as { data: { [key: string]: string } }
+    const response = await client.query(q.Call(q.Function("UpdateList"), data))
 
     return {
       statusCode: 200,
-      body: JSON.stringify(data)
+      body: JSON.stringify(response)
     }
   } catch (e) {
     console.log(e)
