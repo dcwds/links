@@ -1,8 +1,6 @@
 type User {
   email: String! @unique
   netlifyId: String! @unique
-  links: [Link!]! @relation
-  lists: [List!]! @relation
 }
 
 type Link {
@@ -11,14 +9,15 @@ type Link {
   author: User!
   isRead: Boolean!
   list: List
+  createdAt: Time!
 }
 
 type List {
   name: String!
   description: String
   isPrivate: Boolean!
-  links: [Link!]! @relation
   author: User!
+  createdAt: Time!
 }
 
 type Query {

@@ -1,22 +1,20 @@
 export type User = {
   email: string
   netlifyId: string
-  links: Link[]
-  lists: List[]
 }
 
 export type Link = {
+  id: number
   name?: string
   url: string
-  author: User
   isRead: boolean
-  list: List
+  createdAt: number
 }
 
 export type List = {
+  id: number
   name: string
   description?: string
   isPrivate: boolean
-  links: Link[]
-  author: User
+  createdAt: number
 }

@@ -1,19 +1,12 @@
 import { Handler } from "@netlify/functions"
 import { client, q } from "./utils/fauna"
 
-const handler: Handler = async (event, context) => {
+const handler: Handler = async (_, context) => {
   const { user } = context.clientContext
-  const params = event.queryStringParameters
 
   try {
     const response = await client.query(
-      q.Call(
-        q.Function("CreateList"),
-        params.name,
-        params.description || "",
-        Boolean(params.isPrivate),
-        user.sub
-      )
+      q.Call(q.Function("GetListsByUser"), user.sub)
     )
 
     console.log(JSON.stringify(response))
