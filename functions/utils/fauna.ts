@@ -1,7 +1,7 @@
 import faunadb from "faunadb"
 
 const client = new faunadb.Client({
-  secret: process.env.FAUNADB_LOCAL_SECRET,
+  secret: process.env.FGU_SECRET,
   domain: "localhost",
   port: 8443,
   scheme: "http"

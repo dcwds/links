@@ -1,17 +1,16 @@
 import { query as q } from "faunadb"
 
-const getUser = {
-  name: "getUser",
+const GetUserByNetlifyId = {
+  name: "GetUserByNetlifyId",
   body: q.Query(
     q.Lambda(
-      "user",
+      "netlifyId",
       q.Select(
         "ref",
-        q.Get(q.Match(q.Index("unique_User_netlifyId"))),
-        q.Var("user")
+        q.Get(q.Match(q.Index("unique_User_netlifyId"), q.Var("netlifyId")))
       )
     )
   )
 }
 
-export default getUser
+export default GetUserByNetlifyId

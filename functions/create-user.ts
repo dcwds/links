@@ -6,12 +6,7 @@ const handler: Handler = async (_, context) => {
 
   try {
     const response = await client.query(
-      q.Create(q.Collection("User"), {
-        data: {
-          email: user.email,
-          netlifyId: user.sub
-        }
-      })
+      q.Call(q.Function("CreateUser"), user.email, user.sub)
     )
 
     return {
@@ -19,6 +14,7 @@ const handler: Handler = async (_, context) => {
       body: JSON.stringify(response)
     }
   } catch (e) {
+    console.log(e)
     return {
       statusCode: e.statusCode || 500,
       body: JSON.stringify({

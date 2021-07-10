@@ -7,14 +7,13 @@ const handler: Handler = async (event, context) => {
 
   try {
     const response = await client.query(
-      q.Create(q.Collection("List"), {
-        data: {
-          name: params.name,
-          description: params.description || "",
-          isPrivate: Boolean(params.isPrivate),
-          author: q.Call(q.Function("getUser"), user.sub)
-        }
-      })
+      q.Call(
+        q.Function("CreateList"),
+        params.name,
+        params.description || "",
+        Boolean(params.isPrivate),
+        user.sub
+      )
     )
 
     return {
@@ -22,6 +21,7 @@ const handler: Handler = async (event, context) => {
       body: JSON.stringify(response)
     }
   } catch (e) {
+    console.log(e)
     return {
       statusCode: e.statusCode || 500,
       body: JSON.stringify({
