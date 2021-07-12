@@ -1,14 +1,20 @@
 import { useCallback, useEffect, useState, ChangeEvent } from "react"
-import { ListFormState } from "../../types"
+import { List, ListFormState } from "../../types"
 
-const defaultListFormState: ListFormState = {
+let initialState: ListFormState = {
   name: "",
   description: "",
   isPrivate: true
 }
 
-const useListForm = () => {
-  const [list, setList] = useState<ListFormState>(defaultListFormState)
+const useListForm = (listToUpdate: List | null) => {
+  if (listToUpdate) {
+    const { id, createdAt, ...rest } = listToUpdate
+
+    initialState = rest
+  }
+
+  const [list, setList] = useState<ListFormState>(initialState)
   const [valid, setValid] = useState<boolean>(false)
 
   // client-side validation
@@ -22,7 +28,7 @@ const useListForm = () => {
     setList((s) => ({ ...s, isPrivate: e.target.checked }))
 
   const resetForm = () => {
-    setList(defaultListFormState)
+    setList(initialState)
     setValid(false)
   }
 

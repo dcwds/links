@@ -10,11 +10,3 @@ export type Link = {
   isRead: boolean
   createdAt: number
 }
-
-export type List = {
-  id: string
-  name: string
-  description?: string
-  isPrivate: boolean
-  createdAt: number
-}

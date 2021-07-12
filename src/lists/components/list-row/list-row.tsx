@@ -1,6 +1,7 @@
-import { FC } from "react"
-import { List as ListType } from "../../../db/schema-types"
+import { useState, FC } from "react"
 import styled from "styled-components"
+import ListForm from "../list-form"
+import { List } from "../../types"
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -22,23 +23,30 @@ const StyledDescription = styled.p`
   margin: 0.5em 0;
 `
 type Props = {
+  list: List
+  listUpdate: (list: List, successCb?: () => void) => Promise<void>
   listDelete: (name: string, id: string) => Promise<void>
-} & ListType
+}
 
-const ListRow: FC<Props> = ({
-  id,
-  name,
-  description,
-  isPrivate,
-  listDelete
-}) => (
-  <StyledWrapper>
-    <StyledName>{name}</StyledName>
-    {!!description?.length && (
-      <StyledDescription>{description}</StyledDescription>
-    )}
-    <button onClick={() => listDelete(name, id)}>Delete</button>
-  </StyledWrapper>
-)
+const ListRow: FC<Props> = ({ list, listDelete, listUpdate }) => {
+  const [updating, setUpdating] = useState(false)
+
+  return updating ? (
+    <ListForm
+      listToUpdate={list}
+      listUpdate={listUpdate}
+      setUpdating={setUpdating}
+    />
+  ) : (
+    <StyledWrapper>
+      <StyledName>{list.name}</StyledName>
+      {!!list.description?.length && (
+        <StyledDescription>{list.description}</StyledDescription>
+      )}
+      <button onClick={() => setUpdating(true)}>Edit</button>
+      <button onClick={() => listDelete(list.name, list.id)}>Delete</button>
+    </StyledWrapper>
+  )
+}
 
 export default ListRow

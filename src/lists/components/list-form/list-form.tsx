@@ -1,12 +1,20 @@
-import { FC } from "react"
+import { FC, Dispatch, SetStateAction } from "react"
 import useListForm from "../../hooks/use-list-form"
-import { NewList } from "../../types"
+import { List, NewList } from "../../types"
 
 type Props = {
-  listAdd: (list: NewList) => Promise<void>
+  listToUpdate?: List
+  listAdd?: (list: NewList, successCb?: () => void) => Promise<void>
+  listUpdate?: (list: List, successCb?: () => void) => Promise<void>
+  setUpdating?: Dispatch<SetStateAction<boolean>>
 }
 
-const ListForm: FC<Props> = ({ listAdd }) => {
+const ListForm: FC<Props> = ({
+  listToUpdate,
+  listAdd,
+  listUpdate,
+  setUpdating
+}) => {
   const {
     list,
     valid,
@@ -14,11 +22,11 @@ const ListForm: FC<Props> = ({ listAdd }) => {
     onDescriptionChange,
     onPrivateChange,
     resetForm
-  } = useListForm()
+  } = useListForm(listToUpdate ? listToUpdate : null)
 
   return (
     <div>
-      <h2>Add List</h2>
+      {listAdd && <h2>Add List</h2>}
       <div>
         <input
           type="text"
@@ -47,9 +55,30 @@ const ListForm: FC<Props> = ({ listAdd }) => {
           Keep this list private.
         </div>
       </div>
-      <button disabled={!valid} onClick={() => listAdd(list) && resetForm()}>
-        Add
-      </button>
+      {listAdd && (
+        <button
+          disabled={!valid}
+          onClick={() =>
+            listAdd(list, () => {
+              resetForm()
+            })
+          }
+        >
+          Add
+        </button>
+      )}
+      {listUpdate && listToUpdate && setUpdating && (
+        <button
+          disabled={!valid}
+          onClick={() =>
+            listUpdate({ ...listToUpdate, ...list }, () => {
+              setUpdating(false)
+            })
+          }
+        >
+          Update
+        </button>
+      )}
     </div>
   )
 }

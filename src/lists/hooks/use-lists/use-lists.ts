@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useIdentityContext } from "react-netlify-identity"
-import { ListsState, NewList } from "../../types"
+import { List, NewList, ListsState } from "../../types"
 
 const useLists = () => {
   const { authedFetch } = useIdentityContext()
@@ -13,7 +13,6 @@ const useLists = () => {
   useEffect(() => {
     ;(async () => {
       try {
-        console.log("fetch: lists")
         const fetchedLists = await authedFetch.get("/api/get-lists")
 
         setLists((s) => ({ ...s, items: fetchedLists, loading: false }))
@@ -49,7 +48,7 @@ const useLists = () => {
     }
   }
 
-  const listAdd = async (list: NewList) => {
+  const listAdd = async (list: NewList, successCb?: () => void) => {
     try {
       const newList = await authedFetch.post("/api/create-list", {
         body: JSON.stringify(list)
@@ -61,6 +60,8 @@ const useLists = () => {
         ...s,
         items: [newList, ...lists.items]
       }))
+
+      if (successCb) successCb()
     } catch (e) {
       setLists((s) => ({
         ...s,
@@ -69,7 +70,31 @@ const useLists = () => {
     }
   }
 
-  return { lists, listAdd, listDelete }
+  const listUpdate = async (list: List, successCb?: () => void) => {
+    try {
+      const updatedList = await authedFetch.post("/api/update-list", {
+        body: JSON.stringify(list)
+      })
+
+      console.log(updatedList)
+
+      setLists((s) => ({
+        ...s,
+        items: lists.items.map((l) =>
+          l.id === updatedList.id ? updatedList : l
+        )
+      }))
+
+      if (successCb) successCb()
+    } catch (e) {
+      setLists((s) => ({
+        ...s,
+        error: `${list.name} could not be updated. Try again.`
+      }))
+    }
+  }
+
+  return { lists, listAdd, listDelete, listUpdate }
 }
 
 export default useLists

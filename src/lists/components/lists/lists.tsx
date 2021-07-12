@@ -3,7 +3,7 @@ import ListRow from "../list-row"
 import ListForm from "../list-form"
 
 const Lists = () => {
-  const { lists, listAdd, listDelete } = useLists()
+  const { lists, listAdd, listDelete, listUpdate } = useLists()
   const { items, loading, error } = lists
 
   return (
@@ -18,7 +18,12 @@ const Lists = () => {
       {items && (
         <>
           {items.map((item) => (
-            <ListRow key={item.id} {...item} listDelete={listDelete} />
+            <ListRow
+              key={item.id}
+              list={item}
+              listDelete={listDelete}
+              listUpdate={listUpdate}
+            />
           ))}
         </>
       )}

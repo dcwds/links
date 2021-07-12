@@ -1,4 +1,10 @@
-import { List } from "../db/schema-types"
+export type List = {
+  id: string
+  name: string
+  description?: string
+  isPrivate: boolean
+  createdAt: number
+}
 
 export type NewList = Pick<List, "name" | "description" | "isPrivate">
 
