@@ -1,26 +1,23 @@
 import useLists from "../../hooks/use-lists"
-import List from "../list"
+import ListRow from "../list-row"
 
 const Lists = () => {
-  const { lists, status } = useLists()
-
-  console.log("lists rendered")
+  const { items, loading, error } = useLists()
 
   return (
     <div>
-      {
-        {
-          loading: <div>Loading</div>,
-          error: <div>Error</div>,
-          done: (
-            <>
-              {lists.map((l) => (
-                <List key={l.id} {...l} />
-              ))}
-            </>
-          )
-        }[status]
-      }
+      <h1>Lists</h1>
+
+      {loading && <p>Loading...</p>}
+      {error && <p>{error}</p>}
+
+      {items && (
+        <>
+          {items.map((item) => (
+            <ListRow key={item.id} {...item} />
+          ))}
+        </>
+      )}
     </div>
   )
 }
