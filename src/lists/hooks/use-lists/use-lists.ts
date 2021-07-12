@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react"
 import { useIdentityContext } from "react-netlify-identity"
-import { List as ListType } from ".././../../db/schema-types"
+import { ListsState, NewList } from "../../types"
 
 const useLists = () => {
   const { authedFetch } = useIdentityContext()
-  const [lists, setLists] = useState<{
-    items: ListType[]
-    loading: boolean
-    error: string
-  }>({ items: [], loading: true, error: "" })
+  const [lists, setLists] = useState<ListsState>({
+    items: [],
+    loading: true,
+    error: ""
+  })
 
   useEffect(() => {
     ;(async () => {
@@ -24,7 +24,52 @@ const useLists = () => {
     })()
   }, [authedFetch])
 
-  return lists
+  const listDelete = async (name: string, id: string) => {
+    try {
+      const { id: deletedId } = await authedFetch.post("/api/delete-list", {
+        body: JSON.stringify({
+          id
+        })
+      })
+
+      console.log(deletedId)
+
+      setLists((s) => ({
+        ...s,
+        items: lists.items.filter(({ id }) => id !== deletedId)
+      }))
+    } catch (e) {
+      console.log(e)
+      console.log("listDelete: error")
+
+      setLists((s) => ({
+        ...s,
+        error: `${name} could not be deleted. Try again.`
+      }))
+    }
+  }
+
+  const listAdd = async (list: NewList) => {
+    try {
+      const newList = await authedFetch.post("/api/create-list", {
+        body: JSON.stringify(list)
+      })
+
+      console.log(newList)
+
+      setLists((s) => ({
+        ...s,
+        items: [newList, ...lists.items]
+      }))
+    } catch (e) {
+      setLists((s) => ({
+        ...s,
+        error: `${list.name} could not be added. Try again.`
+      }))
+    }
+  }
+
+  return { lists, listAdd, listDelete }
 }
 
 export default useLists

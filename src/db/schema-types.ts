@@ -4,7 +4,7 @@ export type User = {
 }
 
 export type Link = {
-  id: number
+  id: string
   name?: string
   url: string
   isRead: boolean
@@ -12,7 +12,7 @@ export type Link = {
 }
 
 export type List = {
-  id: number
+  id: string
   name: string
   description?: string
   isPrivate: boolean

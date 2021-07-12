@@ -35,6 +35,7 @@ const Routes = () => {
           <Route path="/" exact>
             <p>You are signed in as {user?.email}.</p>
             <Link to="/dashboard">Dashboard</Link>
+            <Link to="/lists">Lists</Link>
             <Link to="/sign-out">Sign Out</Link>
           </Route>
           <Route path="/sign-out" component={SignOut} exact />

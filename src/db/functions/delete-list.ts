@@ -7,20 +7,28 @@ const DeleteList = {
       "data",
       q.Let(
         {
-          list: q.Delete(
-            q.Ref(
-              q.Match(
-                q.Index("listsByUser"),
-                q.Call(
-                  q.Function("GetUserByNetlifyId"),
-                  q.Select("netlifyId", q.Var("data"))
-                )
-              ),
-              q.Select("id", q.Var("data"))
-            )
+          listDoc: q.Get(
+            q.Ref(q.Collection("List"), q.Select("id", q.Var("data")))
           )
         },
-        { id: q.Var("id") }
+        q.If(
+          q.Equals(
+            q.Select(["data", "author"], q.Var("listDoc")),
+            q.Call(
+              q.Function("GetUserByNetlifyId"),
+              q.Select("netlifyId", q.Var("data"))
+            )
+          ),
+          q.Let(
+            {
+              list: q.Delete(q.Select("ref", q.Var("listDoc")))
+            },
+            { id: q.Select("id", q.Var("data")) }
+          ),
+          {
+            error: "could not find list document with this user"
+          }
+        )
       )
     )
   )

@@ -5,6 +5,8 @@ const handler: Handler = async (event, context) => {
   const { user } = context.clientContext
   const data = { ...JSON.parse(event.body), netlifyId: user.sub }
 
+  console.log(data)
+
   try {
     const response = await client.query(q.Call(q.Function("DeleteList"), data))
 

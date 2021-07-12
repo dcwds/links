@@ -21,13 +21,23 @@ const StyledName = styled.h2`
 const StyledDescription = styled.p`
   margin: 0.5em 0;
 `
+type Props = {
+  listDelete: (name: string, id: string) => Promise<void>
+} & ListType
 
-const ListRow: FC<ListType> = ({ id, name, description, isPrivate }) => (
+const ListRow: FC<Props> = ({
+  id,
+  name,
+  description,
+  isPrivate,
+  listDelete
+}) => (
   <StyledWrapper>
     <StyledName>{name}</StyledName>
     {!!description?.length && (
       <StyledDescription>{description}</StyledDescription>
     )}
+    <button onClick={() => listDelete(name, id)}>Delete</button>
   </StyledWrapper>
 )
 
