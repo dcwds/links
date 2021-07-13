@@ -19,6 +19,10 @@ const StyledName = styled.h2`
   padding: 0;
 `
 
+const StyledActions = styled.div`
+  display: flex;
+`
+
 const StyledDescription = styled.p`
   margin: 0.5em 0;
 `
@@ -43,8 +47,10 @@ const ListRow: FC<Props> = ({ list, listDelete, listUpdate }) => {
       {!!list.description?.length && (
         <StyledDescription>{list.description}</StyledDescription>
       )}
-      <button onClick={() => setUpdating(true)}>Edit</button>
-      <button onClick={() => listDelete(list.name, list.id)}>Delete</button>
+      <StyledActions>
+        <button onClick={() => setUpdating(true)}>Edit</button>
+        <button onClick={() => listDelete(list.name, list.id)}>Delete</button>
+      </StyledActions>
     </StyledWrapper>
   )
 }
