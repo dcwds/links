@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState, ChangeEvent } from "react"
 import { List, ListFormState } from "../../types"
 
-let initialState: ListFormState = {
-  name: "",
-  description: "",
-  isPrivate: true
-}
-
 const useListForm = (listToUpdate: List | null) => {
+  let initialState: ListFormState = {
+    name: "",
+    description: "",
+    isPrivate: true
+  }
+
   if (listToUpdate) {
     const { id, createdAt, ...rest } = listToUpdate
 
