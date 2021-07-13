@@ -19,12 +19,9 @@ const DeleteList = {
               q.Select("netlifyId", q.Var("data"))
             )
           ),
-          q.Let(
-            {
-              list: q.Delete(q.Select("ref", q.Var("listDoc")))
-            },
-            { id: q.Select("id", q.Var("data")) }
-          ),
+          q.Do(q.Delete(q.Select("ref", q.Var("listDoc"))), {
+            id: q.Select("id", q.Var("data"))
+          }),
           {
             error: "could not find list document with this user"
           }
