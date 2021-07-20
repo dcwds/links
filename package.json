@@ -35,8 +35,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "fauna": "fgu",
-    "dev:db:start": "netlify dev:exec ./src/db/scripts/start-local-docker-db.sh"
+    "db:dev:upload": "fgu --config ./src/db/config/fgu.dev.json --envPath .env.development",
+    "db:dev:start": "netlify dev:exec ./src/db/scripts/start-dev-db.sh",
+    "db:test:start": "./src/db/scripts/start-test-db.sh"
   },
   "eslintConfig": {
     "extends": [

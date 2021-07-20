@@ -5,12 +5,15 @@ const CreateUser = {
   body: q.Query(
     q.Lambda(
       ["email", "netlifyId"],
-      q.Create(q.Collection("User"), {
-        data: {
-          email: q.Var("email"),
-          netlifyId: q.Var("netlifyId")
-        }
-      })
+      q.Do(
+        q.Create(q.Collection("User"), {
+          data: {
+            email: q.Var("email"),
+            netlifyId: q.Var("netlifyId")
+          }
+        }),
+        { msg: "successfully created user" }
+      )
     )
   )
 }
