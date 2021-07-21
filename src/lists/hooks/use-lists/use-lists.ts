@@ -31,16 +31,11 @@ const useLists = () => {
         })
       })
 
-      console.log(deletedId)
-
       setLists((s) => ({
         ...s,
         items: lists.items.filter(({ id }) => id !== deletedId)
       }))
     } catch (e) {
-      console.log(e)
-      console.log("listDelete: error")
-
       setLists((s) => ({
         ...s,
         error: `${name} could not be deleted. Try again.`
@@ -53,8 +48,6 @@ const useLists = () => {
       const newList = await authedFetch.post("/api/create-list", {
         body: JSON.stringify(list)
       })
-
-      console.log(newList)
 
       setLists((s) => ({
         ...s,
@@ -75,8 +68,6 @@ const useLists = () => {
       const updatedList = await authedFetch.post("/api/update-list", {
         body: JSON.stringify(list)
       })
-
-      console.log(updatedList)
 
       setLists((s) => ({
         ...s,

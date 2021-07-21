@@ -3,19 +3,18 @@ import { client, q } from "./utils/fauna"
 
 const handler: Handler = async (event, context) => {
   const { user } = context.clientContext
-  const data = { ...JSON.parse(event.body), netlifyId: user.sub }
-
-  console.log(data)
+  const payload = { ...JSON.parse(event.body), netlifyId: user.sub }
 
   try {
-    const response = await client.query(q.Call(q.Function("DeleteList"), data))
+    const { data } = await client.query<{ data: { id: string } }>(
+      q.Call(q.Function("DeleteList"), payload)
+    )
 
     return {
       statusCode: 200,
-      body: JSON.stringify(response)
+      body: JSON.stringify(data)
     }
   } catch (e) {
-    console.log(e)
     return {
       statusCode: e.statusCode || 500,
       body: JSON.stringify({

@@ -20,7 +20,9 @@ const DeleteList = {
             )
           ),
           q.Do(q.Delete(q.Select("ref", q.Var("listDoc"))), {
-            id: q.Select("id", q.Var("data"))
+            data: {
+              id: q.Select("id", q.Var("data"))
+            }
           }),
           {
             error: "could not find list document with this user"

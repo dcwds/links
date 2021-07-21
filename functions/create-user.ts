@@ -14,7 +14,6 @@ const handler: Handler = async (_, context) => {
       body: JSON.stringify(response)
     }
   } catch (e) {
-    console.log(e)
     return {
       statusCode: e.statusCode || 500,
       body: JSON.stringify({
