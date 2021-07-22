@@ -15,8 +15,8 @@ const Lists = () => {
 
       <ListForm listAdd={listAdd} />
 
-      {items && (
-        <>
+      {!!items.length && (
+        <div aria-label="lists">
           {items.map((item) => (
             <ListRow
               key={item.id}
@@ -25,7 +25,7 @@ const Lists = () => {
               listUpdate={listUpdate}
             />
           ))}
-        </>
+        </div>
       )}
     </div>
   )

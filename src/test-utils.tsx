@@ -17,18 +17,10 @@ const UIWrapper: FC<{ children: ReactElement } & UIWrapperProps> = ({
   route,
   authenticated
 }) => {
-  const { isLoggedIn, loginUser, logoutUser } = useIdentityContext()
-  const isCancelled = useRef(false)
+  const { isLoggedIn, loginUser } = useIdentityContext()
 
   useEffect(() => {
-    if (!isLoggedIn && authenticated && !isCancelled.current)
-      loginUser("user@domain.com", "", false)
-
-    return () => {
-      if (isLoggedIn) logoutUser()
-
-      isCancelled.current = true
-    }
+    if (!isLoggedIn && authenticated) loginUser("user@domain.com", "", false)
   })
 
   return <MemoryRouter initialEntries={[route || "/"]}>{children}</MemoryRouter>

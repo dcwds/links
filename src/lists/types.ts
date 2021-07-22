@@ -6,7 +6,21 @@ export type List = {
   createdAt: number
 }
 
-export type NewList = Pick<List, "name" | "description" | "isPrivate">
+export type ListNew = Pick<List, "name" | "description" | "isPrivate">
+
+export type ListsResponse = {
+  data: ListResponse[]
+}
+
+export type ListResponse = {
+  data: List
+}
+
+export type ListDeleteResponse = {
+  data: {
+    id: string
+  }
+}
 
 export type ListsState = {
   items: List[]

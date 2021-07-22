@@ -1,0 +1,47 @@
+[
+  {
+    "data": {
+      "id": "614737885221535472",
+      "name": "Articles",
+      "description": "A collection of cool articles",
+      "isPrivate": true,
+      "createdAt": 1626879534674
+    }
+  },
+  {
+    "data": {
+      "id": "304737875221545888",
+      "name": "Docs",
+      "description": "Software docs",
+      "isPrivate": true,
+      "createdAt": 1656379234173
+    }
+  },
+  {
+    "data": {
+      "id": "90237778750021345472",
+      "name": "Science",
+      "description": "",
+      "isPrivate": true,
+      "createdAt": 1514579534663
+    }
+  },
+  {
+    "data": {
+      "id": "111334855299545032",
+      "name": "Dev Blogs",
+      "description": "",
+      "isPrivate": true,
+      "createdAt": 1726934953464
+    }
+  },
+  {
+    "data": {
+      "id": "7654333874221543999",
+      "name": "Space",
+      "description": "",
+      "isPrivate": true,
+      "createdAt": 1446778822135
+    }
+  }
+]

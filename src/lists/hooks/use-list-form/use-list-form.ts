@@ -20,12 +20,21 @@ const useListForm = (listToUpdate: List | null) => {
   // client-side validation
   const isValid = useCallback(() => !!list.name, [list])
 
-  const onNameChange = (e: ChangeEvent<HTMLInputElement>) =>
-    setList((s) => ({ ...s, name: e.target.value }))
-  const onDescriptionChange = (e: ChangeEvent<HTMLInputElement>) =>
-    setList((s) => ({ ...s, description: e.target.value }))
-  const onPrivateChange = (e: ChangeEvent<HTMLInputElement>) =>
-    setList((s) => ({ ...s, isPrivate: e.target.checked }))
+  const onNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    // declaring `value` as variable is necessary
+    // see: https://github.com/testing-library/user-event/issues/387#issuecomment-819761470
+    const value = e.target.value
+    setList((s) => ({ ...s, name: value }))
+  }
+  const onDescriptionChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setList((s) => ({ ...s, description: value }))
+  }
+
+  const onPrivateChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked
+    setList((s) => ({ ...s, isPrivate: checked }))
+  }
 
   const resetForm = () => {
     setList(initialState)

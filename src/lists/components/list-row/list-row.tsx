@@ -3,7 +3,9 @@ import styled from "styled-components"
 import ListForm from "../list-form"
 import { List } from "../../types"
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.div.attrs({
+  "aria-label": "list"
+})`
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -48,7 +50,7 @@ const ListRow: FC<Props> = ({ list, listDelete, listUpdate }) => {
         <StyledDescription>{list.description}</StyledDescription>
       )}
       <StyledActions>
-        <button onClick={() => setUpdating(true)}>Edit</button>
+        <button onClick={() => setUpdating(true)}>Update</button>
         <button onClick={() => listDelete(list.name, list.id)}>Delete</button>
       </StyledActions>
     </StyledWrapper>

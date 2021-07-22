@@ -1,10 +1,10 @@
 import { FC, Dispatch, SetStateAction } from "react"
 import useListForm from "../../hooks/use-list-form"
-import { List, NewList } from "../../types"
+import { List, ListNew } from "../../types"
 
 type Props = {
   listToUpdate?: List
-  listAdd?: (list: NewList, successCb?: () => void) => Promise<void>
+  listAdd?: (list: ListNew, successCb?: () => void) => Promise<void>
   listUpdate?: (list: List, successCb?: () => void) => Promise<void>
   setUpdating?: Dispatch<SetStateAction<boolean>>
 }
@@ -22,24 +22,22 @@ const ListForm: FC<Props> = ({
     onDescriptionChange,
     onPrivateChange,
     resetForm
-  } = useListForm(listToUpdate ? listToUpdate : null)
+  } = useListForm(listToUpdate || null)
 
   return (
-    <div>
+    <div aria-label={listUpdate ? "update list form" : "list form"}>
       {listAdd && <h2>Add List</h2>}
       <div>
         <input
           type="text"
-          name="name"
-          aria-label="add-list-name"
+          aria-label="list name"
           placeholder="Name..."
           value={list.name}
           onChange={(e) => onNameChange(e)}
         />
         <input
           type="text"
-          name="description"
-          aria-label="add-list-description"
+          aria-label="list description"
           placeholder="Description..."
           value={list.description}
           onChange={(e) => onDescriptionChange(e)}
@@ -47,9 +45,8 @@ const ListForm: FC<Props> = ({
         <div>
           <input
             type="checkbox"
+            aria-label="list is private"
             defaultChecked={list.isPrivate}
-            name="isPrivate"
-            aria-label="add-list-is-private"
             onChange={(e) => onPrivateChange(e)}
           />
           Keep this list private.

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useIdentityContext } from "react-netlify-identity"
-import { List, NewList, ListsState } from "../../types"
+import { List, ListsResponse, ListNew, ListsState } from "../../types"
 
 const useLists = () => {
   const { authedFetch } = useIdentityContext()
@@ -13,12 +13,23 @@ const useLists = () => {
   useEffect(() => {
     ;(async () => {
       try {
-        const fetchedLists = await authedFetch.get("/api/get-lists")
+        const { data: fetchedLists } = (await authedFetch.get(
+          "/api/get-lists"
+        )) as ListsResponse
 
-        setLists((s) => ({ ...s, items: fetchedLists, loading: false }))
+        if (!fetchedLists) throw new Error("Could not fetch your lists.")
+
+        setLists((s) => ({
+          ...s,
+          items: fetchedLists.map(({ data }) => data),
+          loading: false
+        }))
       } catch (e) {
-        console.log(e)
-        setLists((s) => ({ ...s, error: "Could not fetch your lists." }))
+        setLists((s) => ({
+          ...s,
+          loading: false,
+          error: e.message
+        }))
       }
     })()
   }, [authedFetch])
@@ -43,11 +54,14 @@ const useLists = () => {
     }
   }
 
-  const listAdd = async (list: NewList, successCb?: () => void) => {
+  const listAdd = async (list: ListNew, successCb?: () => void) => {
     try {
-      const newList = await authedFetch.post("/api/create-list", {
+      const { data: newList } = await authedFetch.post("/api/create-list", {
         body: JSON.stringify(list)
       })
+
+      if (!newList)
+        throw new Error(`${list.name} could not be added. Try again.`)
 
       setLists((s) => ({
         ...s,
@@ -58,16 +72,19 @@ const useLists = () => {
     } catch (e) {
       setLists((s) => ({
         ...s,
-        error: `${list.name} could not be added. Try again.`
+        error: e.message
       }))
     }
   }
 
   const listUpdate = async (list: List, successCb?: () => void) => {
     try {
-      const updatedList = await authedFetch.post("/api/update-list", {
+      const { data: updatedList } = await authedFetch.post("/api/update-list", {
         body: JSON.stringify(list)
       })
+
+      if (!updatedList)
+        throw new Error(`${list.name} could not be updated. Try again.`)
 
       setLists((s) => ({
         ...s,
@@ -80,7 +97,7 @@ const useLists = () => {
     } catch (e) {
       setLists((s) => ({
         ...s,
-        error: `${list.name} could not be updated. Try again.`
+        error: e.message
       }))
     }
   }

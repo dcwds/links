@@ -1,18 +1,18 @@
 import { Handler } from "@netlify/functions"
-import { List } from "../src/lists/types"
+import { ListsResponse } from "../src/lists/types"
 import { client, q } from "./utils/fauna"
 
 const handler: Handler = async (_, context) => {
   const { user } = context.clientContext
 
   try {
-    const { data } = await client.query<{ data: List[] }>(
+    const lists = await client.query<ListsResponse>(
       q.Call(q.Function("GetListsByUser"), user.sub)
     )
 
     return {
       statusCode: 200,
-      body: JSON.stringify(data)
+      body: JSON.stringify(lists)
     }
   } catch (e) {
     return {
